@@ -98,7 +98,7 @@ class MovieMacro(WikiMacroBase):
             query_dict = xform_query(query)
             video = query_dict.get('v')
             
-            url = urlunparse((scheme, netloc, '/v/%s' % video, '', '', ''))
+            url = urlunparse((scheme, netloc, '/embed/%s' % video, '', '', ''))
             
             width = kwargs.pop('width', style_dict.get('width', '425px'))
             height = kwargs.pop('height', style_dict.get('height', '344px'))
@@ -108,10 +108,7 @@ class MovieMacro(WikiMacroBase):
                 'height': height,
             })
             
-            return tag.object(tag.param(name='movie', value=url),
-                              tag.param(name='allowFullScreen', value='true'),
-                              tag.embed(src=url, type='application/x-shockwave-flash', allowfullscreen='true', width=width, height=height),
-                              style=xform_style(style))
+            return tag.iframe(src=url, allowfullscreen='allowfullscreen', frameborder='0', width=width, height=height, style=xform_style(style))
         
         if netloc == 'video.google.com':
             query_dict = xform_query(query)
